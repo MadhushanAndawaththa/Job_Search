@@ -112,36 +112,38 @@ If they 404, fix this before moving on — Step 5 needs the privacy URL to be li
 | Field | Value |
 |---|---|
 | **Name** | Job Search Lens |
-| **Summary** (short, 132 char) | Built for LinkedIn Jobs: dim viewed/saved/applied cards, see company size inline, optionally highlight saved keywords elsewhere. |
+| **Summary** (short, 132 char) | Fade already-seen job listings, see company size faster, and optionally highlight your saved keywords across the web. |
 | **Category** | Productivity |
 | **Language** | English |
 
 ### Detailed description (paste verbatim)
 
 ```
-Job Search Lens is built for LinkedIn Jobs.
+Job Search Lens helps you scan job listings faster.
 
-LinkedIn already knows which jobs you've Viewed, Saved, or Applied to — it just refuses to let you hide them. Job Search Lens fades those cards automatically, with independent toggles per state. It also shows company size and LinkedIn employee count inline next to each job title, so you can judge company fit before you ever open the listing.
+Job pages often leave viewed, saved, and applied listings mixed into the same results. Job Search Lens makes those results easier to scan by fading those cards automatically, with separate switches for each status. It also shows company size and employee count next to the job title, so you can judge company fit faster.
 
-The keyword highlighter is the bonus: save the terms that matter to you (technologies, roles, locations, companies) and they light up on LinkedIn. If you turn on optional all-site access in the popup, they also work on Indeed, Glassdoor, Seek, Wellfound, company career pages, and any other website you browse.
+You can also save the words that matter to you, like skills, job titles, locations, and company names. Those keywords are highlighted on LinkedIn. If you turn on optional all-site access in the popup, the same saved keywords can also be highlighted on other job boards and company career pages.
 
-Everything stays local in your browser. No backend, no telemetry, no account system, no remote code. Every file that ships in the extension package is inspectable via chrome://extensions.
+Everything stays on your device. There is no account, no backend service, no analytics, and no remote code. For people who want to verify that, the installed extension files can be inspected directly in Chrome.
 
 KEY FEATURES
-• LinkedIn Jobs card dimming for Viewed, Saved, and Applied — toggleable per state
-• Inline company size and LinkedIn employee count next to job titles on LinkedIn Jobs
-• Keyword highlights on LinkedIn by default, with optional all-site access from the popup
+• Fade Viewed, Saved, and Applied listings with separate toggles
+• See company size and employee count next to job titles
+• Highlight saved keywords on LinkedIn by default, with optional highlighting on other websites from the popup
 • Right-click context menu to save selected text as a keyword
-• Per-keyword color palette
-• Sort, search, and export controls for the keyword library
-• Match navigation with previous/next controls
+• Turn saved keywords on or off without deleting them
+• Choose a color for each keyword
+• Search, sort, and export your keyword library
+• Jump between highlighted matches with Previous and Next controls
 • Auto, Light, and Dark popup themes
 
 PRIVACY
 • No telemetry, analytics, or tracking pixels
-• No accounts, no sign-in, no cloud sync
+• No accounts, sign-in, or cloud sync
 • No remote code execution
-• Every file that ships in the extension package is inspectable via chrome://extensions
+• All data stays on your device
+• The installed extension files can be inspected directly in Chrome
 ```
 
 ### Assets (upload order)
@@ -168,7 +170,7 @@ PRIVACY
 ### Single purpose
 
 ```
-Job Search Lens is built for LinkedIn Jobs. On linkedin.com/jobs it dims listings already labeled Viewed, Saved, or Applied, and shows inline company size and employee counts. Its keyword highlighter works on LinkedIn by default and can be enabled on other websites from the popup.
+Job Search Lens helps people scan job listings faster. On LinkedIn job pages it fades listings already labeled Viewed, Saved, or Applied, and shows inline company size and employee counts. Saved keywords are highlighted there by default and can also be enabled on other websites from the popup.
 ```
 
 ### Permission justifications

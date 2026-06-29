@@ -13,7 +13,3 @@ credentials.json
 *.pem
 *.key
 .credentials
-
-# Local tool metadata
-.emergent/
-.gitconfig

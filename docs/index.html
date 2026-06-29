@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Search Lens — Built for LinkedIn Jobs</title>
-  <meta name="description" content="Chrome extension built for LinkedIn Jobs. Dim viewed, saved, and applied cards. See company size inline. Optionally highlight saved keywords on other sites. Local-only.">
+  <title>Job Search Lens — Cleaner Job Results</title>
+  <meta name="description" content="Fade already-seen job listings, see company size faster, and optionally highlight your saved keywords. Local-only.">
   <meta name="theme-color" content="#0b1220">
-  <meta property="og:title" content="Job Search Lens — Built for LinkedIn Jobs">
-  <meta property="og:description" content="Dim cards you've already processed. See company size inline. Highlight saved keywords on LinkedIn, with optional all-site access beyond it.">
+  <meta property="og:title" content="Job Search Lens — Cleaner Job Results">
+  <meta property="og:description" content="Fade listings you've already processed, see company size faster, and optionally highlight your saved keywords.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://madhushanandawaththa.github.io/jslens/">
   <meta property="og:image" content="assets/store/og-image-1200x630.png">
@@ -39,13 +39,13 @@
     <section class="hero">
       <span class="hero-eyebrow">
         <span class="version-pill">v1.3</span>
-        Built for LinkedIn Jobs · optional highlights elsewhere
+        Cleaner job results · optional highlights elsewhere
       </span>
       <h1>Stop re-reading the<br><span class="hl">same LinkedIn jobs.</span></h1>
       <p class="hero-sub">
-        Job Search Lens dims cards LinkedIn already labels Viewed, Saved, or Applied,
-        adds inline company size and LinkedIn member counts, and highlights your saved
-        keywords. On LinkedIn first — and, if you turn it on, on every other site you browse.
+        Job Search Lens fades listings you've already processed, adds inline company size
+        and employee counts, and highlights your saved keywords. It works on LinkedIn by
+        default and can optionally highlight those same terms on other sites you browse.
       </p>
       <div class="hero-actions">
         <a class="btn-primary" href="https://chrome.google.com/webstore/category/extensions"
@@ -165,7 +165,7 @@
           <article class="feature-card">
             <span class="feature-pill is-universal"><span class="dot"></span>LinkedIn + optional elsewhere</span>
             <h2>Keyword highlights</h2>
-            <p>Save the terms that matter (techs, roles, locations). They light up on LinkedIn by default — and, if you turn on all-site access in the popup, on Indeed, Glassdoor, Seek, and other sites you browse. Right-click selected text to add instantly.</p>
+            <p>Save the terms that matter. They light up on LinkedIn by default and can also be highlighted on other sites if you turn on all-site access in the popup. Right-click selected text to add instantly.</p>
             <div class="mini-highlight-row">
               <span class="job-tag tag-yellow">Python</span> backend engineer with
               <span class="job-tag tag-green">Django</span> and
@@ -177,8 +177,8 @@
             <span class="feature-pill is-privacy"><span class="dot"></span>Privacy</span>
             <h2>Local-only by construction</h2>
             <p>Your keywords, colors, and settings live in <code>chrome.storage.local</code> on your device.
-              No accounts, no telemetry, no sync, no remote code. Every file that ships in the extension
-              package is inspectable via <code>chrome://extensions</code>.</p>
+              No accounts, no telemetry, no sync, and no remote code. The installed extension files can
+              be inspected directly in Chrome.</p>
             <div class="mini-highlight-row" style="color: var(--muted-soft); font-size: 13px;">
               0 network calls · 0 analytics SDKs · 0 servers
             </div>
@@ -211,7 +211,7 @@
           <li class="step">
             <strong>Turn on cross-site highlights if you want them</strong>
             <p>Use the popup's <em>Highlight on all websites</em> toggle once, and your highlight terms
-              also light up on Indeed, Glassdoor, Seek, and other sites you browse.</p>
+              can also light up on other sites you browse.</p>
           </li>
         </ol>
       </div>
