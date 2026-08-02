@@ -5,7 +5,7 @@ Initial: code review of a LinkedIn-focused Chrome extension with cross-site keyw
 Iteration 2: "improve the product page and related and come up with better marketing images."
 
 ## Product
-Local-only Chrome MV3 extension. Highlights saved keywords on any website; on LinkedIn Jobs it also dims viewed/saved/applied cards and injects company size + follower stats inline.
+Local-only Chrome MV3 extension. Highlights saved keywords on any website; on LinkedIn Jobs it also dims viewed/saved/applied cards and injects company size + LinkedIn employee counts inline.
 
 ## Architecture
 - `manifest.json` — MV3, content script on http/https.
@@ -15,7 +15,9 @@ Local-only Chrome MV3 extension. Highlights saved keywords on any website; on Li
 - `content.js` — highlight engine + LinkedIn dim/stats orchestration.
 - `popup.html` + `popup.js` + `theme-init.js` — interactive UI.
 - `docs/` — GitHub Pages product site (index/privacy/support + marketing templates).
-- `tools/render-store-assets.py` — Playwright-based screenshotter for store images.
+- `tools/render-store-assets.js` — Playwright-based renderer for store and launch images.
+- `tools/build-extension-zip.js` — deterministic, allowlisted Chrome Web Store ZIP builder.
+- `tools/smoke-test-extension.js` — real Chromium smoke test for the unpacked extension.
 
 ## Work Completed — 2026-01 Session 1 (Code Review Pass)
 - `tabs` → `activeTab`; `version_name`; explicit CSP.
@@ -51,7 +53,25 @@ Local-only Chrome MV3 extension. Highlights saved keywords on any website; on Li
 - **tools/render-store-assets.py** — repeatable Playwright pipeline so the assets are regeneratable on every product update.
 
 ## Tests
-30/30 passing. Lint clean.
+The current release suite has 46 automated checks plus a real Chromium extension smoke test.
+
+## Work Completed — 2026-08 Session 6 (Store-Readiness Refresh)
+- Bumped the release to **v1.3.1** and synchronized manifest, package, popup, site, runbook, and listing metadata.
+- Removed the invalid/unnecessary `permissions` manifest entry while retaining optional all-site host access.
+- Corrected Chrome Web Store privacy guidance to disclose transient, local website-content processing and added Limited Use, retention, and deletion language.
+- Removed the dead generic Web Store rating link and made the popup version derive from the manifest.
+- Updated runtime tooling to maintained Node packages with zero known audit vulnerabilities.
+- Replaced platform-specific Python/PowerShell release scripts with portable Node scripts.
+- Added popup, background, release-integrity, asset, archive, and real-browser smoke coverage.
+- Regenerated current marketing images and built an allowlisted 14-file production archive at `dist/job-search-lens-v1.3.1.zip`.
+
+## Work Completed — 2026-08 Session 7 (Website, Privacy, and Store Visual Refresh)
+- Reframed the product around a clearer LinkedIn **review queue** with the headline “See what's new. Fade what isn't.”
+- Introduced a cohesive ink-navy, highlighter-yellow, and signal-blue visual system with a distinctive scan rail across the homepage and launch assets.
+- Reworked the homepage hero, feature hierarchy, local-processing diagram, responsive feature grid, and mobile permission presentation.
+- Removed the remote GitHub avatar request from the product website so every page asset is local.
+- Expanded the privacy policy with a plain-language summary, exact processed/stored data categories, optional-access behavior, retention, security, Limited Use, hosting, and policy-change disclosures.
+- Rebuilt and visually reviewed the Store preview, small promo, marquee, popup composite, and Open Graph image at their required dimensions.
 
 ## Files Changed (Session 2)
 - `docs/index.html`, `docs/style.css`, `docs/privacy-policy.html`, `docs/support.html`, `docs/chrome-web-store-submission.txt`.

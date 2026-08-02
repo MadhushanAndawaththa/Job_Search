@@ -142,7 +142,6 @@
           ok: true,
           isLinkedInPage: isLinkedInPage(),
           isJobsPage: isJobsPage(),
-          route: `${window.location.pathname}${window.location.search}`,
           hasListContainer: Boolean(listRoots.length || listContainer || findJobListContainer()),
           hasDetailContainer: Boolean(detailContainer || findJobDetailContainer()),
           hasFallbackRoot: Boolean(findFallbackHighlightRoot()),

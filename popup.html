@@ -783,26 +783,9 @@
         background-color: rgba(0, 0, 0, 0.04);
         outline: none;
       }
-      .popup-footer-link.is-rate {
-        color: var(--text);
-        font-weight: 600;
-      }
-      .popup-footer-link.is-rate .rate-star {
-        color: #f59e0b;
-        line-height: 1;
-        font-size: 13px;
-      }
-      .popup-footer-link.is-rate:hover,
-      .popup-footer-link.is-rate:focus-visible {
-        background-color: rgba(245, 158, 11, 0.12);
-      }
       html.dark .popup-footer-link:hover,
       html.dark .popup-footer-link:focus-visible {
         background-color: rgba(255, 255, 255, 0.06);
-      }
-      html.dark .popup-footer-link.is-rate:hover,
-      html.dark .popup-footer-link.is-rate:focus-visible {
-        background-color: rgba(245, 158, 11, 0.18);
       }
       .popup-footer-link svg {
         opacity: 0.75;
@@ -870,6 +853,7 @@
       <div class="card stack">
         <div class="section-head">
           <span class="section-label">Page tools</span>
+          <button id="copyDiagnostics" type="button" class="btn-text" title="Copy privacy-safe page diagnostics">Diagnostics</button>
         </div>
 
         <div class="stats-row">
@@ -975,19 +959,8 @@
         <a class="popup-footer-link" href="https://madhushanandawaththa.github.io/jslens/support.html" target="_blank" rel="noopener" data-testid="popup-footer-help-link">Help</a>
         <span class="popup-footer-sep"></span>
         <a class="popup-footer-link" href="https://madhushanandawaththa.github.io/jslens/privacy-policy.html" target="_blank" rel="noopener" data-testid="popup-footer-privacy-link">Privacy</a>
-        <span class="popup-footer-sep"></span>
-        <!--
-          Rate link: replace the href with the real Chrome Web Store detail URL
-          (e.g. https://chrome.google.com/webstore/detail/<extension-id>/reviews)
-          after the extension is approved. Until then it lands on the Chrome
-          Web Store homepage so no broken link ever ships.
-        -->
-        <a class="popup-footer-link is-rate" href="https://chrome.google.com/webstore/category/extensions" target="_blank" rel="noopener" data-testid="popup-footer-rate-link" title="Rate Job Search Lens on the Chrome Web Store">
-          <span class="rate-star" aria-hidden="true">★</span>
-          Rate it
-        </a>
       </div>
-      <span class="popup-footer-version" data-testid="popup-footer-version">v1.3</span>
+      <span id="popupVersion" class="popup-footer-version" data-testid="popup-footer-version">v1.3.1</span>
     </footer>
 
     <script src="shared.js"></script>

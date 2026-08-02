@@ -1,22 +1,22 @@
-# Go-Live Runbook — Job Search Lens v1.3.0
+# Go-Live Runbook — Job Search Lens v1.3.1
 
 Step-by-step guide to ship the extension to the Chrome Web Store. The dev side is done; this file lists only the steps that require your account or identity.
 
-Estimated end-to-end time: **30–60 min hands-on**, plus **1–7 days waiting for Google's review**.
+Estimated hands-on submission time: **30–60 minutes**. Google review time varies by item and account.
 
 ---
 
 ## ✅ Pre-flight (already done for you)
 
-- [x] Code reviewed, lint clean, 30/30 tests passing.
+- [x] Code reviewed and the full automated test suite passing.
 - [x] No `console.log`, no `debugger`, no `TODO`s left in shipped code.
-- [x] Manifest V3 with minimal permissions (`contextMenus`, `storage`, `activeTab`, `permissions`, `scripting`, LinkedIn host access, plus optional all-site access).
-- [x] Production `.zip` built at `dist/job-search-lens-v1.3.0.zip` (~40 KB, 15 files, no dev assets).
-- [x] Popup now has a footer with `Website · Help · Privacy · v1.3` links pointing at the product site.
+- [x] Manifest V3 with minimal permissions (`contextMenus`, `storage`, `activeTab`, `scripting`, LinkedIn host access, plus optional all-site access).
+- [x] Production `.zip` built at `dist/job-search-lens-v1.3.1.zip` (14 files, no dev assets).
+- [x] Popup has a footer with `Website · Help · Privacy · v1.3.1` links pointing at the product site.
 - [x] Five Web Store images generated at exact dimensions in `docs/assets/store/`:
   - `small-promo-440x280.png`
   - `marquee-1400x560.png`
-  - `store-preview-1280x800.png` (4-panel feature overview, LinkedIn-first)
+  - `store-preview-1280x800.png` (review-queue overview with three feature demonstrations)
   - `popup-screenshot-1280x800.png` (real popup UI composite)
   - `og-image-1200x630.png` (social shares)
 - [x] LinkedIn-first messaging applied across all copy.
@@ -42,7 +42,7 @@ You have two repos:
 ```bash
 # Make sure your current repo is private in GitHub settings first.
 git add -A
-git commit -m "v1.3.0: LinkedIn-first branding, popup footer, repo split"
+git commit -m "v1.3.1: Chrome Web Store release cleanup"
 git push origin main
 ```
 
@@ -92,6 +92,7 @@ If they 404, fix this before moving on — Step 5 needs the privacy URL to be li
 3. Accept the developer agreement.
 4. Pay the **$5 one-time** registration fee.
 5. Complete identity verification if Google prompts for it.
+6. Enable **2-Step Verification** on the Google account; Chrome Web Store requires it for publishing and updates.
 
 > Tip: use a Google account you actually plan to maintain. The displayed publisher name is hard to change later.
 
@@ -100,7 +101,7 @@ If they 404, fix this before moving on — Step 5 needs the privacy URL to be li
 ## STEP 3 — Upload the extension (~5 min)
 
 1. From the dev console, click **+ New item**.
-2. Drag `dist/job-search-lens-v1.3.0.zip` (from the private source repo). Wait for it to parse.
+2. Drag `dist/job-search-lens-v1.3.1.zip` (from the private source repo). Wait for it to parse.
 3. The console auto-fills name, version, description, icons from the manifest. Verify they match.
 
 ---
@@ -121,7 +122,7 @@ If they 404, fix this before moving on — Step 5 needs the privacy URL to be li
 ```
 Job Search Lens helps you scan job listings faster.
 
-Job pages often leave viewed, saved, and applied listings mixed into the same results. Job Search Lens makes those results easier to scan by fading those cards automatically, with separate switches for each status. It also shows company size and employee count next to the job title, so you can judge company fit faster.
+LinkedIn often mixes Viewed, Saved, and Applied listings into the same results. Job Search Lens turns that feed into a clearer review queue by fading processed cards automatically, with a separate switch for each state. It also brings LinkedIn-provided company size and employee count closer to the job title, so you can judge fit before opening the listing.
 
 You can also save the words that matter to you, like skills, job titles, locations, and company names. Those keywords are highlighted on LinkedIn. If you turn on optional all-site access in the popup, the same saved keywords can also be highlighted on other job boards and company career pages.
 
@@ -136,6 +137,8 @@ KEY FEATURES
 • Choose a color for each keyword
 • Search, sort, and export your keyword library
 • Jump between highlighted matches with Previous and Next controls
+• Open the popup with Alt + Shift + J
+• Copy a privacy-safe detection report for troubleshooting
 • Auto, Light, and Dark popup themes
 
 PRIVACY
@@ -151,7 +154,7 @@ PRIVACY
 | Slot | File | Notes |
 |---|---|---|
 | Store icon (128×128) | `docs/assets/icons/icon128.png` | Auto-filled from manifest |
-| **Screenshot 1** (1280×800) | `docs/assets/store/store-preview-1280x800.png` | The 4-panel LinkedIn-first feature overview |
+| **Screenshot 1** (1280×800) | `docs/assets/store/store-preview-1280x800.png` | Review-queue overview with card state, company context, keyword focus, and local-only architecture |
 | **Screenshot 2** (1280×800) | `docs/assets/store/popup-screenshot-1280x800.png` | Real popup UI composite |
 | **Small promo tile** (440×280) | `docs/assets/store/small-promo-440x280.png` | |
 | **Marquee promo** (1400×560) | `docs/assets/store/marquee-1400x560.png` | Recommended even though optional |
@@ -170,7 +173,7 @@ PRIVACY
 ### Single purpose
 
 ```
-Job Search Lens helps people scan job listings faster. On LinkedIn job pages it fades listings already labeled Viewed, Saved, or Applied, and shows inline company size and employee counts. Saved keywords are highlighted there by default and can also be enabled on other websites from the popup.
+Job Search Lens turns LinkedIn job results into a clearer review queue by fading listings already labeled Viewed, Saved, or Applied, showing company context near job titles, and highlighting saved keywords. Keyword highlighting can also be enabled on other websites from the popup.
 ```
 
 ### Permission justifications
@@ -178,9 +181,8 @@ Job Search Lens helps people scan job listings faster. On LinkedIn job pages it 
 | Permission | Justification (paste exactly) |
 |---|---|
 | `contextMenus` | Adds a right-click "Add to Highlighter" menu item so users can save selected text from any page as a highlight keyword without opening the popup. |
-| `storage` | Stores the user's saved keywords, color choices, theme preference, dim-state toggles, and all-site-highlighting preference locally in chrome.storage.local. Nothing is transmitted off the device. |
+| `storage` | Stores the user's saved keywords, color choices, dim-state toggles, and all-site-highlighting preference locally in chrome.storage.local. The popup theme uses extension localStorage. Nothing is transmitted off the device. |
 | `activeTab` | When the user opens the popup, the popup queries the active tab to display status (job-list / job-detail surfaces detected, match count) and to send navigate-match commands. Permission is only granted while the popup is open via user gesture. |
-| `permissions` | Lets the popup request or remove optional all-site access when the user turns `Highlight on all websites` on or off. |
 | `scripting` | Registers and injects the optional non-LinkedIn page helper after the user enables all-site highlighting, so highlights start working on future pages automatically. |
 | `host_permissions` (`https://www.linkedin.com/*`) | Required so LinkedIn Jobs dimming, company stats, and keyword highlighting work automatically on LinkedIn. |
 | `optional_host_permissions` (`http://*/*` and `https://*/*`) | Only requested if the user turns on `Highlight on all websites` in the popup. Used so keyword highlights can run automatically on non-LinkedIn pages. |
@@ -191,7 +193,7 @@ Select **"No, I am not using remote code"**.
 
 ### Data usage
 
-Check **"No user data is collected"**.
+Do **not** select "No user data is collected." Select **Website content** because the extension reads visible page text locally to provide highlighting and LinkedIn job tools. State clearly that this content is processed transiently on-device, is not retained, and is never transmitted to the developer or a third party. Complete the Limited Use certifications so they match the privacy policy.
 
 ### Privacy policy URL
 
@@ -200,6 +202,15 @@ https://madhushanandawaththa.github.io/jslens/privacy-policy.html
 ```
 
 Tick the certification checkbox.
+
+### Reviewer test instructions
+
+Paste the following into the **Test instructions** tab. No credentials are supplied or required for the cross-site highlighter.
+
+1. Open a public text-heavy page, add a visible word in the popup, enable **Highlight on all websites**, accept the optional site-access prompt, and reload once. The word should be highlighted; Previous/Next should navigate its matches.
+2. Use the popup to disable/re-enable the keyword, change its color, search the keyword library, and export the library.
+3. LinkedIn-specific dimming and company stats require a signed-in LinkedIn account. With the reviewer's own account, open `https://www.linkedin.com/jobs/`, then use the Viewed/Saved/Applied switches to verify card dimming and open a job detail to verify the inline company stats when LinkedIn provides them.
+4. All processing is local. The package makes no developer-controlled network requests and contains no remote code.
 
 ---
 
@@ -219,7 +230,7 @@ Tick the certification checkbox.
 
 1. Save draft on every tab.
 2. Hit **Submit for review** in the top right.
-3. Review timeline: **1–7 days for new items**; subsequent updates usually under 24 h.
+3. Review time varies. Watch the developer-account email for questions or required action.
 4. You'll get an email with the verdict.
 
 ---
@@ -232,8 +243,8 @@ Tick the certification checkbox.
 3. Commit + push — your "Get the extension" CTAs now go straight to the live listing.
 4. Tag the release on the **source repo**:
    ```bash
-   git tag -a v1.3.0 -m "First Chrome Web Store release"
-   git push origin v1.3.0
+   git tag -a v1.3.1 -m "First Chrome Web Store release"
+   git push origin v1.3.1
    ```
 
 ---
@@ -257,9 +268,7 @@ Low-pressure places:
 3. Bump version in `manifest.json` AND `package.json` AND the README badge on every release.
 4. Regenerate marketing assets when copy changes:
    ```bash
-   python3 -m http.server 8765 &
-   /opt/plugins-venv/bin/python tools/render-store-assets.py
-   /opt/plugins-venv/bin/python tools/render-launch-assets.py
+   npm run assets:render
    ```
 5. Rebuild the zip:
    ```bash
@@ -272,7 +281,7 @@ Low-pressure places:
 ## Quick reference — files to upload during STEPs 3–4
 
 ```
-dist/job-search-lens-v1.3.0.zip                          ← STEP 3 (extension package)
+dist/job-search-lens-v1.3.1.zip                          ← STEP 3 (extension package)
 docs/assets/store/store-preview-1280x800.png             ← STEP 4 screenshot 1
 docs/assets/store/popup-screenshot-1280x800.png          ← STEP 4 screenshot 2
 docs/assets/store/small-promo-440x280.png                ← STEP 4 small promo

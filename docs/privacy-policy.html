@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy — Job Search Lens</title>
+  <meta name="description" content="How Job Search Lens processes visible website content locally, what it stores in Chrome, and what the developer never receives.">
   <meta name="theme-color" content="#0b1220">
   <link rel="icon" href="assets/icons/icon32.png">
   <link rel="stylesheet" href="style.css">
@@ -25,55 +26,91 @@
   <main>
     <div class="page-hero">
       <h1>Privacy Policy</h1>
-      <p class="page-date">Last updated: January 2026</p>
+      <p class="page-date">Last updated: August 2, 2026</p>
     </div>
 
     <div class="prose">
-      <p>Job Search Lens is a local-only Chrome extension designed to make job results easier to scan. This page explains what the extension accesses, how that information is used, and what is <strong>not</strong> collected or shared.</p>
+      <p>This policy covers the Job Search Lens Chrome extension. It explains what the extension processes to provide its features, what stays in browser storage, and what the developer does not receive.</p>
 
-      <h2>What the extension does</h2>
-      <p>On LinkedIn Jobs, Job Search Lens passively dims job cards that LinkedIn itself labels as Viewed, Saved, or Applied, and shows inline company size and employee counts near job titles. It also highlights any keywords you've saved — on LinkedIn by default, and on other websites only if you turn on optional all-site access in the popup.</p>
+      <div class="privacy-summary" aria-label="Privacy summary">
+        <div class="privacy-summary-item">
+          <span>Developer receives</span>
+          <strong>Nothing automatically</strong>
+        </div>
+        <div class="privacy-summary-item">
+          <span>Page content</span>
+          <strong>Processed transiently in the tab</strong>
+        </div>
+        <div class="privacy-summary-item">
+          <span>Saved preferences</span>
+          <strong>Stored locally in Chrome</strong>
+        </div>
+      </div>
 
-      <h2>What data is stored</h2>
+      <h2>What the extension processes</h2>
+      <p>Job Search Lens processes the minimum information needed for its user-facing features:</p>
       <ul>
-        <li>Keywords you save.</li>
-        <li>Color choices for those keywords.</li>
-        <li>Extension settings such as pause state, dim-state toggles, theme preference, and whether optional all-site highlighting is enabled.</li>
+        <li><strong>Visible website text</strong> to find saved keyword matches.</li>
+        <li><strong>LinkedIn job-card labels</strong> such as Viewed, Saved, and Applied to determine which cards to dim.</li>
+        <li><strong>Company size and LinkedIn employee-count text</strong> already present in the LinkedIn page so it can be shown closer to the job title.</li>
+        <li><strong>The current tab URL</strong> when you open the popup, only to identify whether the active page supports LinkedIn tools and match navigation.</li>
       </ul>
-      <p>These values are stored locally in <code>chrome.storage.local</code> on your device and are never transmitted anywhere.</p>
+      <p>Page content and the current tab URL are processed in the browser. They are not retained as a browsing history and are not transmitted to the developer or a third party.</p>
 
-      <h2>What data is not collected</h2>
+      <h2>What is stored on your device</h2>
       <ul>
-        <li>No account information is collected.</li>
-        <li>No personal data is transmitted to the developer or any third party.</li>
-        <li>No job application data is uploaded to any server.</li>
-        <li>No analytics, telemetry, tracking pixels, or third-party advertising is used.</li>
-        <li>No remote code is executed.</li>
+        <li>Keywords you save and whether each keyword is enabled.</li>
+        <li>The highlight color assigned to each keyword.</li>
+        <li>Pause state, dim-state toggles, and the optional all-site-highlighting preference.</li>
+        <li>The popup theme preference.</li>
       </ul>
+      <p>Keywords, colors, and feature settings are stored in <code>chrome.storage.local</code>. The popup theme is stored in the extension's own <code>localStorage</code> so it can be applied before the popup paints. Job Search Lens does not use Chrome Sync, and these values are not sent to a developer-controlled server.</p>
 
-      <h2>How page content is used</h2>
-      <p>On LinkedIn Jobs, the extension reads the Viewed, Saved, and Applied labels LinkedIn already renders on each card, plus the company size and employee-count text LinkedIn renders inline. On any other website, after you turn on optional all-site access, the extension reads page text locally to find matches for the keywords you've saved.</p>
-      <p>This processing is on-device only. The extension does not send page content, browsing history, or any metadata to any external endpoint.</p>
+      <h2>Optional access outside LinkedIn</h2>
+      <p>LinkedIn access is included because the extension's primary features run there automatically. Access to other HTTP and HTTPS websites is optional. Chrome asks for that broader access only after you turn on <em>Highlight on all websites</em> in the popup. You can turn the setting off to remove the optional access.</p>
+
+      <h2>Diagnostics you choose to copy</h2>
+      <p>When you click <em>Diagnostics</em>, Job Search Lens creates a support report locally and copies it to your clipboard. The report contains the extension version, connection and page-category status, detected-feature flags, and numeric counts. It excludes the page URL, page text, job and company names, and saved keyword values. The developer receives it only if you choose to share it.</p>
+
+      <h2>What the developer does not collect</h2>
+      <ul>
+        <li>No names, email addresses, account credentials, or LinkedIn login information.</li>
+        <li>No job applications, browsing history, saved-job history, or page content.</li>
+        <li>No analytics events, telemetry, crash reports, advertising identifiers, or tracking pixels.</li>
+        <li>No payment or financial information.</li>
+      </ul>
+      <p>The extension has no developer account system, backend service, advertising SDK, analytics SDK, or remote-code loader.</p>
+
+      <h2>How information is used and shared</h2>
+      <p>Information processed through Chrome APIs is used only to provide keyword highlighting, card dimming, company context, match navigation, context-menu capture, diagnostics, and user-controlled settings. Except for a privacy-safe diagnostic report you deliberately copy and share for support, no stored or processed information is transferred or made available for human review. Nothing is sold, rented, disclosed for advertising, or used for creditworthiness, lending, or unrelated profiling. A diagnostic report you share may be reviewed only to investigate the issue you reported.</p>
 
       <h2>Permissions</h2>
       <ul>
-        <li><strong>contextMenus</strong> — add selected text as a keyword via right-click on any page.</li>
-        <li><strong>storage</strong> — persist your keywords and settings locally in the browser.</li>
-        <li><strong>activeTab</strong> — let the popup talk to the currently active tab for status and match navigation when you open the popup.</li>
-        <li><strong>permissions</strong> — let the popup request or remove optional all-site access when you use the cross-site toggle.</li>
-        <li><strong>scripting</strong> — register the optional non-LinkedIn page helper after you turn on all-site highlighting.</li>
-        <li><strong>https://www.linkedin.com/*</strong> — required so LinkedIn Jobs features run automatically on LinkedIn.</li>
-        <li><strong>http://*/*</strong> and <strong>https://*/*</strong> — requested only if you turn on <em>Highlight on all websites</em>, so keyword highlights can run automatically on non-LinkedIn pages.</li>
+        <li><strong>contextMenus</strong> — add text you select as a keyword through the right-click menu.</li>
+        <li><strong>storage</strong> — save keywords and feature settings locally.</li>
+        <li><strong>activeTab</strong> — let the popup check and communicate with the tab you are actively viewing after you open the popup.</li>
+        <li><strong>scripting</strong> — register the highlighting helper when optional all-site highlighting is enabled.</li>
+        <li><strong>https://www.linkedin.com/*</strong> — run LinkedIn Jobs highlighting, card dimming, and company-context features automatically.</li>
+        <li><strong>http://*/*</strong> and <strong>https://*/*</strong> — optional host access requested only for all-site keyword highlighting.</li>
       </ul>
 
-      <h2>Data sharing</h2>
-      <p>No stored or processed data is sold, rented, transferred, or disclosed to any third party.</p>
+      <h2>Retention and deletion</h2>
+      <p>Website content and active-tab information are processed transiently and are not retained. Saved keywords and preferences remain in extension-local storage until you change or remove them. Removing the extension through Chrome deletes its local extension storage. You can also remove individual keywords or turn off optional all-site access from the popup at any time.</p>
 
-      <h2>How we keep this promise</h2>
-      <p>The extension package shipped to the Chrome Web Store contains only the JavaScript, CSS, and image files needed to run locally. You can inspect everything that runs in your browser via <code>chrome://extensions</code> → <em>Inspect views</em>. There is no remote loader, no analytics SDK, and no network call to a developer-controlled server.</p>
+      <h2>Security and remote code</h2>
+      <p>The extension uses a restrictive Manifest V3 content security policy and ships the JavaScript, CSS, and images it needs inside the extension package. It does not download or execute remote code and makes no requests to a developer-controlled endpoint. Your browser profile and device security still determine who can access locally stored extension settings.</p>
+
+      <h2>Chrome Web Store Limited Use</h2>
+      <p>Job Search Lens's use of information received from Chrome APIs complies with the Chrome Web Store User Data Policy, including its Limited Use requirements. That information is used only to provide or improve the extension's prominent user-facing features described above.</p>
+
+      <h2>Product website</h2>
+      <p>The product website contains no developer-added analytics, advertising, cookies, or tracking pixels. It is hosted on GitHub Pages, so GitHub may process ordinary web-request information under its own terms and privacy policy. Following an external link takes you to that site's privacy practices.</p>
+
+      <h2>Policy changes</h2>
+      <p>If the extension's data practices materially change, this policy and its “Last updated” date will be revised before the changed version is published.</p>
 
       <h2>Contact</h2>
-      <p>For support or privacy questions, visit the <a href="support.html">support page</a> or open an issue on the <a href="https://github.com/MadhushanAndawaththa/jslens/issues" target="_blank" rel="noopener">issue tracker</a>.</p>
+      <p>For support or privacy questions, visit the <a href="support.html">support page</a> or open an issue on the <a href="https://github.com/MadhushanAndawaththa/jslens/issues" target="_blank" rel="noopener">public issue tracker</a>. Do not include private job-search or account information in a public issue.</p>
     </div>
   </main>
 

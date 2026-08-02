@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Search Lens — Cleaner Job Results</title>
-  <meta name="description" content="Fade already-seen job listings, see company size faster, and optionally highlight your saved keywords. Local-only.">
+  <title>Job Search Lens — See What Is New</title>
+  <meta name="description" content="Turn LinkedIn Jobs into a clearer review queue: fade processed listings, see company size inline, and highlight the terms that matter.">
   <meta name="theme-color" content="#0b1220">
-  <meta property="og:title" content="Job Search Lens — Cleaner Job Results">
-  <meta property="og:description" content="Fade listings you've already processed, see company size faster, and optionally highlight your saved keywords.">
+  <meta property="og:title" content="Job Search Lens — See What Is New">
+  <meta property="og:description" content="A quieter LinkedIn Jobs review queue with local-only card dimming, company context, and keyword highlights.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://madhushanandawaththa.github.io/jslens/">
   <meta property="og:image" content="assets/store/og-image-1200x630.png">
@@ -36,39 +36,43 @@
   <main>
 
     <!-- ───────────────────────────── Hero ───────────────────────────── -->
-    <section class="hero">
+    <section class="hero-stage">
+    <div class="hero">
       <span class="hero-eyebrow">
-        <span class="version-pill">v1.3</span>
-        Cleaner job results · optional highlights elsewhere
+        <span class="version-pill">v1.3.1</span>
+        A quieter LinkedIn job search
       </span>
-      <h1>Stop re-reading the<br><span class="hl">same LinkedIn jobs.</span></h1>
+      <h1>See what's new.<br><span class="hl">Fade what isn't.</span></h1>
       <p class="hero-sub">
-        Job Search Lens fades listings you've already processed, adds inline company size
-        and employee counts, and highlights your saved keywords. It works on LinkedIn by
-        default and can optionally highlight those same terms on other sites you browse.
+        Job Search Lens turns LinkedIn's repetitive feed into a practical review queue:
+        processed listings recede, company context appears inline, and the terms you care
+        about become easy to spot.
       </p>
       <div class="hero-actions">
-        <a class="btn-primary" href="https://chrome.google.com/webstore/category/extensions"
-           target="_blank" rel="noopener">
-          Get the extension
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a class="btn-secondary" href="#how">How it works</a>
+        <span class="btn-primary is-pending" aria-label="Chrome Web Store launch coming soon">Chrome Web Store · coming soon</span>
+        <a class="btn-secondary" href="#features">Explore the workflow</a>
       </div>
-      <p class="btn-meta">Free · Privacy-first · Local-only · Chrome MV3</p>
-    </section>
+      <p class="btn-meta">Free · No account · Local processing · Chrome MV3</p>
+    </div>
 
     <!-- ─────────────── Hero mockup ─────────────── -->
     <div class="hero-mockup-wrap">
       <div class="hero-mockup">
+        <div class="scan-rail" aria-hidden="true">
+          <span class="scan-brand">Lens</span>
+          <span class="scan-state is-active">New</span>
+          <span class="scan-state">Viewed</span>
+          <span class="scan-state">Saved</span>
+          <span class="scan-state">Applied</span>
+        </div>
         <div class="browser-frame">
           <div class="browser-chrome">
             <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-url">linkedin.com/jobs/search</div>
+            <div class="browser-url">Review queue / 3 visible jobs</div>
           </div>
           <div class="browser-body">
 
-            <div class="job-row">
+            <div class="job-row is-new">
               <div class="job-logo">Pn</div>
               <div class="job-body">
                 <div class="job-title">Senior <span class="job-tag tag-yellow">Python</span> Backend Engineer</div>
@@ -84,6 +88,7 @@
                     34,210 on LinkedIn
                   </span>
                 </div>
+                <span class="lens-state">New match</span>
               </div>
             </div>
 
@@ -124,20 +129,27 @@
       </div>
     </div>
 
+    <div class="hero-proof" aria-label="Product principles">
+      <span><strong>Automatic on LinkedIn</strong> once installed</span>
+      <span><strong>Optional elsewhere</strong> only when you enable access</span>
+      <span><strong>Local by design</strong> with no developer server</span>
+    </div>
+    </section>
+
     <!-- ───────────────────────────── Features ───────────────────────────── -->
     <section id="features" class="section">
       <div class="section-inner">
         <p class="section-label">Features</p>
-        <h2 class="section-title">Four tools that make LinkedIn Jobs&nbsp;bearable.</h2>
-        <p class="section-lede">No "AI matching", no "smart ranking". Just lightweight, inspectable utilities
-          that fix the things LinkedIn Jobs gets wrong every day.</p>
+        <h2 class="section-title">A faster review loop, built from small decisions.</h2>
+        <p class="section-lede">No scoring model and no opaque ranking. Job Search Lens changes what you can
+          see at a glance, then stays out of the way.</p>
 
         <div class="feature-grid">
 
           <article class="feature-card is-wide">
             <span class="feature-pill is-linkedin"><span class="dot"></span>LinkedIn — flagship feature</span>
-            <h2>Dim cards you've already processed</h2>
-            <p>LinkedIn already <em>knows</em> which jobs you've Viewed, Saved, and Applied to — it just refuses to let you hide them. Job Search Lens fades them automatically. Independent toggles per state. Stop re-reading the same listings fifteen times.</p>
+            <h2>Keep your attention on unreviewed jobs</h2>
+            <p>Cards LinkedIn labels Viewed, Saved, or Applied recede automatically. Each state has its own toggle, so your queue reflects how you actually review opportunities.</p>
             <div class="mini-dim-stack">
               <div class="mini-dim-row dim"><span class="state-dot viewed"></span>Viewed · Lead Platform Engineer · Acme</div>
               <div class="mini-dim-row dim"><span class="state-dot saved"></span>Saved · Staff Python Engineer · Northwind</div>
@@ -147,9 +159,8 @@
 
           <article class="feature-card">
             <span class="feature-pill is-linkedin"><span class="dot"></span>LinkedIn</span>
-            <h2>Company size, inline</h2>
-            <p>Company size range and LinkedIn employee count appear next to the job title.
-              Judge company fit before you open the listing.</p>
+            <h2>Get company context before opening</h2>
+            <p>Company size range and LinkedIn employee count appear near the job title when LinkedIn provides them, making company fit easier to judge.</p>
             <div class="mini-stat-row">
               <span class="company-stat">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
@@ -164,8 +175,8 @@
 
           <article class="feature-card">
             <span class="feature-pill is-universal"><span class="dot"></span>LinkedIn + optional elsewhere</span>
-            <h2>Keyword highlights</h2>
-            <p>Save the terms that matter. They light up on LinkedIn by default and can also be highlighted on other sites if you turn on all-site access in the popup. Right-click selected text to add instantly.</p>
+            <h2>Make important terms catch your eye</h2>
+            <p>Save skills, locations, or constraints. They highlight on LinkedIn by default and on other sites only after you enable optional all-site access. Right-click selected text to add it instantly.</p>
             <div class="mini-highlight-row">
               <span class="job-tag tag-yellow">Python</span> backend engineer with
               <span class="job-tag tag-green">Django</span> and
@@ -176,9 +187,9 @@
           <article class="feature-card is-wide">
             <span class="feature-pill is-privacy"><span class="dot"></span>Privacy</span>
             <h2>Local-only by construction</h2>
-            <p>Your keywords, colors, and settings live in <code>chrome.storage.local</code> on your device.
-              No accounts, no telemetry, no sync, and no remote code. The installed extension files can
-              be inspected directly in Chrome.</p>
+            <p>Your keywords, colors, and feature settings live in <code>chrome.storage.local</code> on your device,
+              while the popup theme stays in extension <code>localStorage</code>. No accounts, no telemetry, no sync,
+              and no remote code. The installed extension files can be inspected directly in Chrome.</p>
             <div class="mini-highlight-row" style="color: var(--muted-soft); font-size: 13px;">
               0 network calls · 0 analytics SDKs · 0 servers
             </div>
@@ -233,7 +244,6 @@
             <tr><td><code>contextMenus</code></td><td>Add selected text as a keyword via right-click on any page.</td></tr>
             <tr><td><code>storage</code></td><td>Save keywords, colors, and dim-state settings locally in the browser.</td></tr>
             <tr><td><code>activeTab</code></td><td>Let the popup talk to the active tab for status and match navigation.</td></tr>
-            <tr><td><code>permissions</code></td><td>Let the popup request or remove optional all-site access when you use the cross-site toggle.</td></tr>
             <tr><td><code>scripting</code></td><td>Register the optional non-LinkedIn page helper after you turn on all-site highlighting.</td></tr>
             <tr><td><code>https://www.linkedin.com/*</code></td><td>Let LinkedIn Jobs dimming, company stats, and keyword highlighting run automatically on LinkedIn.</td></tr>
             <tr><td><code>http://*/*</code> <br><code>https://*/*</code> <br><small>(optional)</small></td><td>Requested only if you turn on <em>Highlight on all websites</em>, so saved keywords can highlight automatically on non-LinkedIn pages.</td></tr>
@@ -245,38 +255,51 @@
     <!-- ───────────────────────────── Privacy strip ───────────────────────────── -->
     <section class="privacy-strip">
       <div class="section-inner">
-        <p class="section-label">Local-only</p>
-        <h2 class="section-title">Your job search stays yours.</h2>
-        <p class="section-lede">Six promises we keep by simply not writing the code:</p>
+        <div class="privacy-heading">
+          <div>
+            <p class="section-label">Local-only architecture</p>
+            <h2 class="section-title">A short route from page to result.</h2>
+          </div>
+          <p class="section-lede">The useful work happens inside the browser tab. There is no developer account, API, analytics pipeline, or remote code path.</p>
+        </div>
 
-        <ul class="never-list">
-          <li><span class="check">✓</span>No telemetry</li>
-          <li><span class="check">✓</span>No analytics SDKs</li>
-          <li><span class="check">✓</span>No external API calls</li>
-          <li><span class="check">✓</span>No remote code execution</li>
-          <li><span class="check">✓</span>No accounts or sign-in</li>
-          <li><span class="check">✓</span>No cloud sync</li>
-        </ul>
+        <div class="data-route" aria-label="How extension data is handled">
+          <div class="route-node">
+            <span class="route-label">Reads</span>
+            <strong>Visible page text</strong>
+            <small>Only on permitted pages</small>
+          </div>
+          <span class="route-arrow" aria-hidden="true">→</span>
+          <div class="route-node is-focus">
+            <span class="route-label">Processes</span>
+            <strong>Inside the current tab</strong>
+            <small>Highlights, states, company context</small>
+          </div>
+          <span class="route-arrow" aria-hidden="true">→</span>
+          <div class="route-node">
+            <span class="route-label">Sends</span>
+            <strong>Nothing to us</strong>
+            <small>No telemetry or developer server</small>
+          </div>
+        </div>
+
+        <p class="privacy-footnote">Saved keywords and preferences remain in extension-local browser storage until you remove them or uninstall the extension. <a href="privacy-policy.html">Read the full privacy policy</a>.</p>
       </div>
     </section>
 
     <!-- ───────────────────────────── CTA closer ───────────────────────────── -->
     <section class="cta-closer">
-      <h2>Take back your <span class="hl">LinkedIn job search.</span></h2>
-      <p>Install once. Run forever. Nothing leaves your browser, ever.</p>
+      <h2>Spend your attention on <span class="hl">jobs worth opening.</span></h2>
+      <p>Install once, choose your keywords, and let the queue become easier to read.</p>
       <div class="hero-actions">
-        <a class="btn-primary" href="https://chrome.google.com/webstore/category/extensions"
-           target="_blank" rel="noopener">
-          Get it on Chrome
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a class="btn-secondary" href="support.html">Read the docs</a>
+        <span class="btn-primary is-pending" aria-label="Chrome Web Store launch coming soon">Chrome Web Store · coming soon</span>
+        <a class="btn-secondary" href="support.html">Get support</a>
       </div>
     </section>
 
     <!-- ───────────────────────────── Author ───────────────────────────── -->
     <section class="author-section">
-      <img class="author-avatar" src="https://github.com/MadhushanAndawaththa.png" alt="Madhushan Andawaththa">
+      <span class="author-avatar" aria-hidden="true">MA</span>
       <p class="author-label">Built by</p>
       <a class="author-link" href="https://linkedin.com/in/thiwankamadhushan" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

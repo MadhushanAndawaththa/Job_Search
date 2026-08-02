@@ -1,24 +1,29 @@
 {
   "name": "job-search-lens",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "private": true,
   "description": "Local-only Chrome extension that highlights keywords on any website and adds LinkedIn Jobs tools.",
-  "homepage": "https://github.com/MadhushanAndawaththa/Job_Search",
+  "homepage": "https://madhushanandawaththa.github.io/jslens/",
   "repository": {
     "type": "git",
     "url": "https://github.com/MadhushanAndawaththa/Job_Search.git"
   },
   "bugs": {
-    "url": "https://github.com/MadhushanAndawaththa/Job_Search/issues"
+    "url": "https://github.com/MadhushanAndawaththa/jslens/issues"
   },
   "engines": {
-    "node": ">=20"
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "build:zip": "python tools/build-extension-zip.py",
+    "build:zip": "node tools/build-extension-zip.js",
+    "assets:install": "playwright install chromium",
+    "assets:render": "node tools/render-store-assets.js",
+    "smoke:browser": "node tools/smoke-test-extension.js",
     "test": "node --test"
   },
   "devDependencies": {
-    "jsdom": "^29.1.1"
+    "fflate": "^0.8.2",
+    "jsdom": "^30.0.1",
+    "playwright": "^1.62.1"
   }
 }

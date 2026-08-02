@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.3.0-0f766e?style=flat-square" alt="Version 1.3.0" />
+  <img src="https://img.shields.io/badge/version-1.3.1-0f766e?style=flat-square" alt="Version 1.3.1" />
   <img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome Manifest V3" />
   <img src="https://img.shields.io/badge/privacy-local--only-0F9D58?style=flat-square" alt="Local-only privacy" />
-  <img src="https://img.shields.io/badge/tests-34%20passing-brightgreen?style=flat-square" alt="34 tests passing" />
+  <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat-square" alt="Tests passing" />
   <img src="https://img.shields.io/badge/license-MIT%20%2B%20Commons%20Clause-blue?style=flat-square" alt="MIT + Commons Clause" />
 </p>
 
@@ -33,7 +33,7 @@ It does three things:
 2. Passively dims job cards LinkedIn already labels as Viewed, Saved, or Applied.
 3. Shows company size and LinkedIn employee counts inline near job titles on LinkedIn, so you can judge company fit without opening a separate tab.
 
-All settings stay local in the browser through `chrome.storage.local`.
+All settings stay in extension-local browser storage and never leave the device.
 
 ## Features
 
@@ -43,6 +43,8 @@ All settings stay local in the browser through `chrome.storage.local`.
 - Assign a color to each keyword with an inline palette.
 - Search, sort, and export the keyword library.
 - Navigate between matches with previous and next controls.
+- Open the popup with `Alt + Shift + J` (remappable in Chrome).
+- Copy a privacy-safe detection report when a LinkedIn layout needs support.
 - Switch between Auto, Light, and Dark popup themes.
 
 **LinkedIn Jobs extras**
@@ -79,7 +81,6 @@ The extension keeps its permission surface intentionally small.
 | `contextMenus` | Adds the selection-based “Add to Highlighter” action on webpages. |
 | `storage` | Stores keywords, colors, and dim-state settings locally. |
 | `activeTab` | Lets the popup identify the active tab and ask the content script for status and match navigation when the user opens the popup. |
-| `permissions` | Lets the popup request or remove optional all-site access when the user toggles cross-site highlighting. |
 | `scripting` | Registers and injects the optional non-LinkedIn page helper after the user enables all-site highlighting. |
 | `https://www.linkedin.com/*` host access | Lets LinkedIn Jobs dimming, company stats, and keyword highlighting run automatically on LinkedIn. |
 | `http://*/*` and `https://*/*` optional host access | Requested only if the user turns on `Highlight on all websites`, so keyword highlights can run automatically on non-LinkedIn pages. |
@@ -128,7 +129,7 @@ flowchart LR
 
 ## Testing
 
-Automated coverage currently includes 31 passing tests across shared helpers, DOM heuristics, and scenario content-script regressions.
+Automated coverage includes shared helpers, manifest/package integrity, popup and background behavior, DOM heuristics, and scenario content-script regressions.
 
 ```bash
 npm test
@@ -149,18 +150,20 @@ Current coverage includes:
 
 ## Publishing Resources
 
-The public product site is at **[madhushanandawaththa.github.io/Job_Search](https://madhushanandawaththa.github.io/Job_Search/)**
+The public product site is at **[madhushanandawaththa.github.io/jslens](https://madhushanandawaththa.github.io/jslens/)**
 (served from the `docs/` folder via GitHub Pages).
 
 This repo also includes the assets and reference material needed for store preparation:
 
 - [docs/index.html](docs/index.html): product landing page
-- [docs/privacy-policy.html](docs/privacy-policy.html): privacy policy — [live link](https://madhushanandawaththa.github.io/Job_Search/privacy-policy.html)
-- [docs/support.html](docs/support.html): support page — [live link](https://madhushanandawaththa.github.io/Job_Search/support.html)
+- [docs/privacy-policy.html](docs/privacy-policy.html): privacy policy — [live link](https://madhushanandawaththa.github.io/jslens/privacy-policy.html)
+- [docs/support.html](docs/support.html): support page — [live link](https://madhushanandawaththa.github.io/jslens/support.html)
 - [docs/chrome-web-store-submission.txt](docs/chrome-web-store-submission.txt): listing copy, permission justifications, and publish checklist
 - `assets/icons/`: manifest and store icon files (16 / 32 / 48 / 128 px)
 - `assets/store/`: branded promo tiles and listing graphics
-- `tools/generate-assets.ps1`: repeatable PowerShell script to regenerate all store graphics
+- `npm run assets:install`: installs the Chromium runtime needed by the asset renderer (run once per machine)
+- `npm run assets:render`: regenerates the Chrome Web Store and launch graphics from their HTML sources
+- `npm run smoke:browser`: loads the unpacked extension in Chromium and checks the real service worker, popup, storage, and clipboard flow
 
 ## Project Structure
 
@@ -183,12 +186,17 @@ Job_Search/
 ├── shared.js                  # Shared logic used across runtime surfaces
 ├── styles.css                 # Highlight and dim styling injected into pages
 ├── tests/
+│   ├── background.test.js
 │   ├── dom-heuristics.test.js
 │   ├── fixtures/
+│   ├── popup.test.js
+│   ├── release-integrity.test.js
 │   └── shared.test.js
 ├── theme-init.js              # Early theme bootstrap for no-flash popup rendering
 ├── tools/
-│   └── generate-assets.ps1    # Rebuilds icons and store graphics
+│   ├── build-extension-zip.js # Reproducible release ZIP builder
+│   ├── render-store-assets.js # Browser-rendered store and launch graphics
+│   └── smoke-test-extension.js # Real Chromium extension smoke test
 ├── package.json
 └── .gitignore
 ```
@@ -214,6 +222,7 @@ LinkedIn may change its markup or platform policies at any time, so selector mai
 
 | Version | Summary |
 |---|---|
+| 1.3.1 | Store-readiness maintenance: corrected permissions and privacy disclosures, refreshed dependencies and assets, added a popup shortcut and privacy-safe diagnostics, made the build portable, and expanded release validation |
 | 1.3.0 | Added optional all-site highlighting from the popup while keeping LinkedIn automatic by default; added inline company size and LinkedIn employee counts near job titles; added SDUI page support (scenario 13); improved title-anchor placement for wrapped-title SDUI layouts (scenario 15); updated popup status messaging |
 | 1.2.2 | Renamed the product to Job Search Lens, refreshed docs and store copy, added scenario 6-8 regression coverage, and prepared updated store assets |
 | 1.2.1 | Publish-prep metadata, icons, static policy/support pages, scenario 5 heuristics, and DOM fixture tests |

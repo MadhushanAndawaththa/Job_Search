@@ -26,6 +26,7 @@ const keywordEmpty = document.getElementById('keywordEmpty');
 const keywordCount = document.getElementById('keywordCount');
 const stateCountSummary = document.getElementById('stateCountSummary');
 const pageStatus = document.getElementById('pageStatus');
+const copyDiagnosticsButton = document.getElementById('copyDiagnostics');
 const prevMatchButton = document.getElementById('prevMatch');
 const nextMatchButton = document.getElementById('nextMatch');
 const matchStatus = document.getElementById('matchStatus');
@@ -39,6 +40,7 @@ const keywordLibraryMeta = document.getElementById('keywordLibraryMeta');
 const sortKeywordsButton = document.getElementById('sortKeywords');
 const exportKeywordsButton = document.getElementById('exportKeywords');
 const themeToggle = document.getElementById('themeToggle');
+const popupVersion = document.getElementById('popupVersion');
 const PAGE_STATUS_REFRESH_MS = 1500;
 const EXPORT_FEEDBACK_MS = 1500;
 
@@ -54,6 +56,13 @@ let lastPageStatusTone = '';
 let siteAccessToggleInFlight = false;
 let exportOriginalLabel = '';
 let exportResetTimer = null;
+let diagnosticsOriginalLabel = '';
+let diagnosticsResetTimer = null;
+let missingSurfaceChecks = 0;
+let diagnosticSnapshot = {
+  pageScope: 'unavailable',
+  helperConnected: false,
+};
 
 // ── Theme management ─────────────────────────────────────────────────────────────────────────────
 // localStorage is the single source of truth for theme: theme-init.js needs
@@ -109,6 +118,7 @@ void initializePopup();
 // storage state even if the extension worker was restarted.
 async function initializePopup() {
   initTheme();
+  renderVersion();
   renderFormPalette();
   await render();
 
@@ -119,6 +129,7 @@ async function initializePopup() {
   formColorPalette.addEventListener('click', handleFormPaletteClick);
   sortKeywordsButton.addEventListener('click', handleSortToggle);
   exportKeywordsButton.addEventListener('click', handleExportKeywords);
+  copyDiagnosticsButton.addEventListener('click', handleCopyDiagnostics);
   document.addEventListener('click', handleDocumentClick);
   document.addEventListener('keydown', handleDocumentKeydown);
   pauseToggle.addEventListener('change', updatePauseState);
@@ -152,6 +163,15 @@ async function initializePopup() {
   document.addEventListener('visibilitychange', handleVisibilityChange);
   window.addEventListener('beforeunload', stopStatusRefreshLoop, { once: true });
   startStatusRefreshLoop();
+}
+
+function renderVersion() {
+  const manifest = chrome.runtime.getManifest();
+  const version = manifest.version_name || manifest.version;
+
+  if (popupVersion && version) {
+    popupVersion.textContent = `v${version}`;
+  }
 }
 
 async function render() {
@@ -605,6 +625,42 @@ async function handleExportKeywords() {
   }
 }
 
+async function handleCopyDiagnostics() {
+  const manifest = chrome.runtime.getManifest();
+  const report = {
+    product: 'Job Search Lens',
+    extensionVersion: manifest.version_name || manifest.version,
+    capturedAt: new Date().toISOString(),
+    status: {
+      title: lastPageStatusTitle || 'Not checked',
+      tone: lastPageStatusTone || 'info',
+    },
+    ...diagnosticSnapshot,
+    privacyNote: 'No URL, page text, job title, company name, or saved keyword value is included.',
+  };
+
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(report, null, 2));
+    showDiagnosticsFeedback('Copied!');
+  } catch {
+    showDiagnosticsFeedback('Copy failed');
+  }
+}
+
+function showDiagnosticsFeedback(label) {
+  if (!diagnosticsResetTimer) {
+    diagnosticsOriginalLabel = copyDiagnosticsButton.textContent;
+  } else {
+    window.clearTimeout(diagnosticsResetTimer);
+  }
+
+  copyDiagnosticsButton.textContent = label;
+  diagnosticsResetTimer = window.setTimeout(() => {
+    copyDiagnosticsButton.textContent = diagnosticsOriginalLabel;
+    diagnosticsResetTimer = null;
+  }, EXPORT_FEEDBACK_MS);
+}
+
 function handleSortToggle() {
   keywordSortMode = keywordSortMode === 'az' ? 'default' : 'az';
   sortKeywordsButton.setAttribute('aria-pressed', String(keywordSortMode === 'az'));
@@ -710,8 +766,20 @@ async function renderPageStatus() {
   const highlightAllSitesEnabled = arguments.length > 0
     ? Boolean(arguments[0])
     : await chrome.permissions.contains({ origins: OPTIONAL_SITE_ACCESS_PATTERNS });
+  const activeTabIsLinkedIn = isLinkedInUrl(activeTab?.url || '');
+
+  diagnosticSnapshot = {
+    pageScope: !activeTab?.id
+      ? 'no-active-tab'
+      : activeTabIsLinkedIn
+        ? 'linkedin'
+        : 'other-web-page',
+    allSiteHighlighting: highlightAllSitesEnabled,
+    helperConnected: false,
+  };
 
   if (!activeTab?.id) {
+    missingSurfaceChecks = 0;
     updateStateSummary();
     updateMatchStatus(0, -1);
     setPageStatus(
@@ -722,9 +790,8 @@ async function renderPageStatus() {
     return;
   }
 
-  const activeTabIsLinkedIn = isLinkedInUrl(activeTab.url || '');
-
   if (!activeTabIsLinkedIn && !highlightAllSitesEnabled) {
+    missingSurfaceChecks = 0;
     updateStateSummary();
     updateMatchStatus(0, -1);
     setPageStatus(
@@ -741,6 +808,7 @@ async function renderPageStatus() {
     });
 
     if (!response?.ok) {
+      missingSurfaceChecks = 0;
       updateStateSummary();
       updateMatchStatus(0, -1);
       setPageStatus(
@@ -764,6 +832,33 @@ async function renderPageStatus() {
     if (response.hasFallbackRoot && surfaces.length === 0) {
       surfaces.push('general jobs page content');
     }
+
+    if (response.isJobsPage && surfaces.length === 0) {
+      missingSurfaceChecks += 1;
+    } else {
+      missingSurfaceChecks = 0;
+    }
+
+    diagnosticSnapshot = {
+      ...diagnosticSnapshot,
+      helperConnected: true,
+      isLinkedInPage: Boolean(response.isLinkedInPage),
+      isJobsPage: Boolean(response.isJobsPage),
+      paused: Boolean(response.paused),
+      surfaces: {
+        jobList: Boolean(response.hasListContainer),
+        jobDetails: Boolean(response.hasDetailContainer),
+        fallback: Boolean(response.hasFallbackRoot),
+      },
+      counts: {
+        keywords: Number(response.keywordCount) || 0,
+        matches: Number(response.matchCount) || 0,
+        viewed: Number(response.stateCounts?.viewed) || 0,
+        saved: Number(response.stateCounts?.saved) || 0,
+        applied: Number(response.stateCounts?.applied) || 0,
+      },
+      missingSurfaceChecks,
+    };
 
     const surfaceText = surfaces.length ? surfaces.join(' + ') : 'no LinkedIn job surfaces yet';
 
@@ -805,9 +900,12 @@ async function renderPageStatus() {
     }
 
     if (!surfaces.length) {
+      const persistentLayoutMiss = missingSurfaceChecks >= 3;
       setPageStatus(
-        'LinkedIn Jobs is loading',
-        `The extension is connected, but job containers are not ready yet on ${response.route}.`,
+        persistentLayoutMiss ? 'LinkedIn layout not detected' : 'LinkedIn Jobs is loading',
+        persistentLayoutMiss
+          ? 'Reload the page once. If this persists, copy Diagnostics and share it from the support page.'
+          : 'The extension is connected, but LinkedIn job containers are not ready yet.',
         'warning',
       );
       return;
@@ -828,6 +926,7 @@ async function renderPageStatus() {
       'success',
     );
   } catch {
+    missingSurfaceChecks = 0;
     updateStateSummary();
     updateMatchStatus(0, -1);
 

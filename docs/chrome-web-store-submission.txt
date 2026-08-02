@@ -1,16 +1,16 @@
 JOB SEARCH LENS
-Chrome Web Store submission notes (v1.3)
+Chrome Web Store submission notes (v1.3.1)
 
 Single-purpose statement
-Job Search Lens helps people scan job listings faster. On LinkedIn job pages it fades listings already labeled Viewed, Saved, or Applied, and shows inline company size and employee counts. Saved keywords are highlighted there by default and can also be enabled on other websites from the popup.
+Job Search Lens turns LinkedIn job results into a clearer review queue by fading listings already labeled Viewed, Saved, or Applied, showing company context near job titles, and highlighting saved keywords. Keyword highlighting can also be enabled on other websites from the popup.
 
 Short description (132 char max)
-Fade already-seen job listings, see company size faster, and optionally highlight your saved keywords across the web.
+Turn LinkedIn Jobs into a clearer review queue with card dimming, company context, and local keyword highlights.
 
 Detailed description
 Job Search Lens helps you scan job listings faster.
 
-Job pages often leave viewed, saved, and applied listings mixed into the same results. Job Search Lens makes those results easier to scan by fading those cards automatically, with separate switches for each status. It also shows company size and employee count next to the job title, so you can judge company fit faster.
+LinkedIn often mixes Viewed, Saved, and Applied listings into the same results. Job Search Lens turns that feed into a clearer review queue by fading processed cards automatically, with a separate switch for each state. It also brings LinkedIn-provided company size and employee count closer to the job title, so you can judge fit before opening the listing.
 
 You can also save the words that matter to you, like skills, job titles, locations, and company names. Those keywords are highlighted on LinkedIn. If you turn on optional all-site access in the popup, the same saved keywords can also be highlighted on other job boards and company career pages.
 
@@ -25,6 +25,8 @@ KEY FEATURES
 • Choose a color for each keyword
 • Search, sort, and export your keyword library
 • Jump between highlighted matches with Previous and Next controls
+• Open the popup with Alt + Shift + J
+• Copy a privacy-safe detection report for troubleshooting
 • Auto, Light, and Dark popup themes
 
 PRIVACY
@@ -33,6 +35,12 @@ PRIVACY
 • No remote code execution
 • All data stays on your device
 • The installed extension files can be inspected directly in Chrome
+
+Privacy practices disclosure
+• Disclose Website content because visible page text is processed locally for highlighting and LinkedIn job tools.
+• Do not select "No user data is collected." Chrome's policy treats locally processed website content as user-data handling even when it is never transmitted.
+• Certify the Chrome Web Store User Data Policy and Limited Use requirements.
+• Privacy policy: https://madhushanandawaththa.github.io/jslens/privacy-policy.html
 
 Publishing checklist
 1. The website lives in the public repo at https://github.com/MadhushanAndawaththa/jslens — push the contents of docs/ to the root of that repo, then enable GitHub Pages from the main branch:
@@ -47,7 +55,5 @@ Publishing checklist
 7. Consider deferred publishing for the first submission so review can complete before public release.
 
 To regenerate marketing images
-   python3 -m http.server 8765 &
-   /opt/plugins-venv/bin/python tools/render-store-assets.py
-   /opt/plugins-venv/bin/python tools/render-launch-assets.py
+   npm run assets:render
    # ⇒ writes 440x280, 1400x560, 1280x800, popup, og PNGs to docs/assets/store/
